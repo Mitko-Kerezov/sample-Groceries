@@ -1,8 +1,9 @@
 var dialogs = require("ui/dialogs");
 var frameModule = require("ui/frame");
 
-var User = require("../../shared/models/User");
-var user = new User();
+var UserViewModel = require("../../shared/view-models/user-view-model");
+
+var user = new UserViewModel();
 
 exports.load = function(args) {
 	var page = args.object;
@@ -17,21 +18,14 @@ function completeRegistration() {
 				.then(function() {
 					frameModule.topmost().navigate("./views/login/login");
 				});
-		}).catch(function() {
+		}).catch(function(e) {
 			dialogs.alert({
-				message: "Unfortunately we were unable to create your account.",
+				message: "Unfortunately we were unable to create your account. Error: " + e,
 				okButtonText: "OK"
 			});
 		});
 }
 
 exports.register = function() {
-	if (user.isValidEmail()) {
-		completeRegistration();
-	} else {
-		dialogs.alert({
-			message: "Please include a valid email address.",
-			okButtonText: "OK"
-		});
-	}
+	completeRegistration();
 };
