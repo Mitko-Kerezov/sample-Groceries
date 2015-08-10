@@ -51,6 +51,24 @@ function GroceryList(items) {
 		});
 	};
 
+	viewModel.delete = function(index) {
+		return new Promise(function(resolve, reject) {
+	        http.request({
+	            url: config.apiUrl + "Groceries/" + viewModel.getItem(index).id,
+	            method: "DELETE",
+	            headers: {
+	                "Authorization": "Bearer " + config.token,
+	                "Content-Type": "application/json"
+	            }
+	        }).then(function(data) {
+	            viewModel.splice(index, 1);
+	            resolve();
+	        }).catch(function(error) {
+	            reject();
+	        });
+	    });
+	};
+
 	return viewModel;
 }
 

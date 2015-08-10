@@ -1,6 +1,6 @@
 var http = require("http");
 var config = require("../../shared/config");
-
+var validator = require("email-validator/index");
 var observableModule = require("data/observable");
 
 function User(info) {
@@ -68,6 +68,11 @@ function User(info) {
 			});
 		});
 	}
+
+	viewModel.isValidEmail = function() {
+		var email = this.get("email");
+		return validator.validate(email);
+	};
 
 	return viewModel;
 
